@@ -12,9 +12,6 @@ using System.Threading.Tasks;
 
 namespace Auth.Models.DbSetup.MigratorSetup
 {
-
-
-
     public static class FluentMigratorSetup
     {
         public static IServiceCollection AddFluentMigrator(this IServiceCollection services, IConfiguration configuration)

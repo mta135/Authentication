@@ -17,8 +17,7 @@
 
   <ItemGroup>
     <Folder Include="DataScheme\" />
-    <Folder Include="Repositories\Abstract\" />
-    <Folder Include="Repositories\Real\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
