@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Authentication.Api;
 
+
 public partial class User
 {
     public int Id { get; set; }
@@ -19,3 +20,4 @@ public partial class User
 
     public bool? IsActive { get; set; }
 }
+

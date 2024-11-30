@@ -7,6 +7,7 @@ namespace Authentication.Api;
 
 public partial class EcerereDbContext : DbContext
 {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
     public EcerereDbContext()
     {
     }
@@ -23,7 +24,7 @@ public partial class EcerereDbContext : DbContext
 
     public virtual DbSet<MsignRequestDocument>? MsignRequestDocuments { get; set; }
 
-    public virtual DbSet<User>? Users { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(ConnectionString.Connection);
 
@@ -110,4 +111,5 @@ public partial class EcerereDbContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
 }
