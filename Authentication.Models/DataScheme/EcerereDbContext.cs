@@ -25,8 +25,6 @@ public partial class EcerereDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<VersionInfo> VersionInfos { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(ConnectionString.Connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -103,20 +101,6 @@ public partial class EcerereDbContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Role).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<VersionInfo>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("VersionInfo");
-
-            entity.HasIndex(e => e.Version, "UC_Version")
-                .IsUnique()
-                .IsClustered();
-
-            entity.Property(e => e.AppliedOn).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(1024);
         });
 
         OnModelCreatingPartial(modelBuilder);
