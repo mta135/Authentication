@@ -5,16 +5,13 @@ using Auth.Models.DbSetup.MigratorSetup;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddFluentMigrator(builder.Configuration);
 
-// Add services to the container.
-
-
-#region Setup Connection String
 
 ConnectionString.InitializeSettings(builder.Configuration);
 
-#endregion
+builder.Services.AddFluentMigrator(builder.Configuration);
+
+// Add services to the container.
 
 
 builder.Services.AddControllers();

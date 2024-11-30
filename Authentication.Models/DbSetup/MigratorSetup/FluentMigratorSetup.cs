@@ -1,4 +1,5 @@
 ﻿using Auth.Models.DbSetup.DataBaseMigrations;
+using Auth.Models.DbSetup.DbSetupConnection;
 using FluentMigrator;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.Configuration;
@@ -16,15 +17,13 @@ namespace Auth.Models.DbSetup.MigratorSetup
     {
         public static IServiceCollection AddFluentMigrator(this IServiceCollection services, IConfiguration configuration)
         {
-            // Retrieve connection string from appsettings.json
-            string connectionString = configuration.GetConnectionString("DefaultConnection");
 
             // Configure FluentMigrator
             services.AddFluentMigratorCore()
                 .ConfigureRunner(config =>
                 {
                     config.AddSqlServer()
-                          .WithGlobalConnectionString(connectionString)
+                          .WithGlobalConnectionString(ConnectionString.Connection)
                          .ScanIn(typeof(Migrations).Assembly).For.Migrations();
 
                 });
