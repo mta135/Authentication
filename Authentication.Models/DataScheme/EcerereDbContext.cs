@@ -12,19 +12,18 @@ public partial class EcerereDbContext : DbContext
     }
 
     public EcerereDbContext(DbContextOptions<EcerereDbContext> options) : base(options)
-
     {
     }
 
-    public virtual DbSet<Address> Addresses { get; set; }
+    public virtual DbSet<Address>? Addresses { get; set; }
 
-    public virtual DbSet<Appointment> Appointments { get; set; }
+    public virtual DbSet<Appointment>? Appointments { get; set; }
 
-    public virtual DbSet<MsignRequest> MsignRequests { get; set; }
+    public virtual DbSet<MsignRequest>? MsignRequests { get; set; }
 
-    public virtual DbSet<MsignRequestDocument> MsignRequestDocuments { get; set; }
+    public virtual DbSet<MsignRequestDocument>? MsignRequestDocuments { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User>? Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(ConnectionString.Connection);
 
@@ -104,6 +103,8 @@ public partial class EcerereDbContext : DbContext
             entity.Property(e => e.Role).HasMaxLength(50);
             entity.Property(e => e.UserName).HasMaxLength(250);
         });
+
+
 
         OnModelCreatingPartial(modelBuilder);
     }
