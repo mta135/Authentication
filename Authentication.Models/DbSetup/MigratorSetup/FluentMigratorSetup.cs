@@ -15,28 +15,30 @@ namespace Auth.Models.DbSetup.MigratorSetup
 {
     public static class FluentMigratorSetup
     {
-        public static IServiceCollection AddFluentMigrator(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureAndRunMigrations(IServiceCollection services)
         {
-
             // Configure FluentMigrator
             services.AddFluentMigratorCore()
                 .ConfigureRunner(config =>
                 {
                     config.AddSqlServer()
                           .WithGlobalConnectionString(ConnectionString.Connection)
-                         .ScanIn(typeof(Migrations).Assembly).For.Migrations();
-
+                          .ScanIn(typeof(Migrations).Assembly).For.Migrations();
                 });
 
-            return services;
+            // Build the service provider and run migrations
+            var serviceProvider = services.BuildServiceProvider();
+
+            RunMigrations(serviceProvider);
         }
 
-        public static void RunMigrations(IServiceProvider serviceProvider)
+        private static void RunMigrations(IServiceProvider serviceProvider)
         {
             using var scope = serviceProvider.CreateScope();
             var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
 
-            runner.MigrateUp(); // Apply all pending migrations
+            // Apply all pending migrations
+            runner.MigrateUp();
         }
-    }
+    }    
 }
