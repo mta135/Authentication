@@ -1,6 +1,9 @@
 
 using Auth.Models.DbSetup.DbSetupConnection;
 using Auth.Models.DbSetup.MigratorSetup;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 internal class Program
 {
