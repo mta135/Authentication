@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auth.Models.DataBaseSetup.DataBaseConnection
+namespace Auth.Models.DbSetup.DbSetupConnection
 {
     public static class ConnectionString
     {

@@ -1,4 +1,5 @@
-using Auth.Models.DataBaseSetup.DataBaseConnection;
+
+using Auth.Models.DbSetup.DbSetupConnection;
 using Auth.Models.DbSetup.MigratorSetup;
 
 var builder = WebApplication.CreateBuilder(args);
