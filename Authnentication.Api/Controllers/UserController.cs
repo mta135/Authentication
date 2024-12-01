@@ -1,12 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Authentication.Models.Model;
+using Authentication.Models.Repositories.Abstract;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Authentication.Api.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+
     public class UserController : Controller
     {
-        public IActionResult Index()
+        private readonly IUserService userService;
+
+        public UserController(IUserService userService)
         {
-            return View();
+            this.userService = userService;
+        }
+
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserRegisterResult))]
+        public async  Task<IActionResult> UserRegister(UserRegistration userRegistration)
+        {
+            UserRegisterResult userRegisterResult = await userService.UserRegister(userRegistration);
+
+            return Ok(userRegisterResult);
         }
     }
 }

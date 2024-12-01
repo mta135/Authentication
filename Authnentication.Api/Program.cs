@@ -26,7 +26,7 @@ internal class Program
 
         builder.Services.AddControllers();
 
-        #region Depnedecy Injection
+        #region Register Dependecy Injection
 
         DependencyInjectionResolver.DependecyInjection(builder.Services);
 
