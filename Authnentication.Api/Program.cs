@@ -1,6 +1,7 @@
 
 using Auth.Models.DbSetup.DbSetupConnection;
 using Auth.Models.DbSetup.MigratorSetup;
+using Authentication.Api.Injection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,8 +24,13 @@ internal class Program
 
         #endregion
 
-
         builder.Services.AddControllers();
+
+        #region Depnedecy Injection
+
+        DependencyInjectionResolver.DependecyInjection(builder.Services);
+
+        #endregion
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

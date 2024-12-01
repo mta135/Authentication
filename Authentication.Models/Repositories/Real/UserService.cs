@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Authentication.Models.Repositories.Real
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
         EcerereDbContext _db;
 
