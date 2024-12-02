@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Auth.Models.DbSetup.DbSetupConnection;
+using Authentication.Api;
 using Microsoft.EntityFrameworkCore;
 
-namespace Authentication.Api;
+namespace Authentication.Models.DataScheme;
 
 public partial class EcerereDbContext : DbContext
 {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value
     public EcerereDbContext()
     {
     }
@@ -16,15 +16,19 @@ public partial class EcerereDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Address>? Addresses { get; set; }
+    public virtual DbSet<Address> Addresses { get; set; }
 
-    public virtual DbSet<Appointment>? Appointments { get; set; }
+    public virtual DbSet<Appointment> Appointments { get; set; }
 
-    public virtual DbSet<MsignRequest>? MsignRequests { get; set; }
+    public virtual DbSet<MsignRequest> MsignRequests { get; set; }
 
-    public virtual DbSet<MsignRequestDocument>? MsignRequestDocuments { get; set; }
+    public virtual DbSet<MsignRequestDocument> MsignRequestDocuments { get; set; }
+
+    public virtual DbSet<OtpManager> OtpManagers { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(ConnectionString.Connection);
 
@@ -93,6 +97,19 @@ public partial class EcerereDbContext : DbContext
                 .HasConstraintName("FK_MSignRequestDocuments_Appointment");
         });
 
+        modelBuilder.Entity<OtpManager>(entity =>
+        {
+            entity.ToTable("OtpManager");
+
+            entity.Property(e => e.OtpText).HasMaxLength(50);
+            entity.Property(e => e.OtpType).HasMaxLength(50);
+
+            entity.HasOne(d => d.User).WithMany(p => p.OtpManagers)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_OtpManager_Users");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.ToTable("User");
@@ -105,11 +122,22 @@ public partial class EcerereDbContext : DbContext
             entity.Property(e => e.UserName).HasMaxLength(250);
         });
 
+        modelBuilder.Entity<VersionInfo>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("VersionInfo");
 
+            entity.HasIndex(e => e.Version, "UC_Version")
+                .IsUnique()
+                .IsClustered();
+
+            entity.Property(e => e.AppliedOn).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(1024);
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
 }

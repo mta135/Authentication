@@ -1,4 +1,5 @@
 ﻿using Authentication.Api;
+using Authentication.Models.DataScheme;
 using Authentication.Models.Model;
 using Authentication.Models.Repositories.Abstract;
 using System;
@@ -37,8 +38,8 @@ namespace Authentication.Models.Repositories.Real
 
 
             await _db.Users.AddAsync(user);
-            
-            await _db.SaveChangesAsync();
+
+            int UserId = await _db.SaveChangesAsync();
 
 
             return userRegisterResult;

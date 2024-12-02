@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Authentication.Api;
 
-
 public partial class User
 {
     public int Id { get; set; }
@@ -19,5 +18,6 @@ public partial class User
     public string? Role { get; set; }
 
     public bool? IsActive { get; set; }
-}
 
+    public virtual ICollection<OtpManager> OtpManagers { get; set; } = new List<OtpManager>();
+}
