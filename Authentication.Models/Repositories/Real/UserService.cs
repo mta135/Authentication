@@ -33,6 +33,8 @@ namespace Authentication.Models.Repositories.Real
    
             user.Role = user.Role;
 
+            string otp = Generaterandomnumber();
+
 
             await _db.Users.AddAsync(user);
             
@@ -41,5 +43,17 @@ namespace Authentication.Models.Repositories.Real
 
             return userRegisterResult;
         }
+
+
+
+
+        private string Generaterandomnumber()
+        {
+            Random random = new Random();
+
+            string randomno = random.Next(0, 1000000).ToString("D6");
+            return randomno;
+        }
+
     }
 }
