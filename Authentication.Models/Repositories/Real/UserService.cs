@@ -2,53 +2,77 @@
 using Authentication.Models.DataScheme;
 using Authentication.Models.Model;
 using Authentication.Models.Repositories.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Authentication.Models.Repositories.Real
 {
     public class UserService : IUserService
     {
-        EcerereDbContext _db;
+        private readonly EcerereDbContext _db;
 
         public UserService()
         {
             _db = new EcerereDbContext();
         }
 
-        public async Task<UserRegisterResult> UserRegister(UserRegistration userRegistration)
+        public async Task<RegisterResult> UserRegister(UserRegistration userRegistration)
         {
+            RegisterResult registerResult = new RegisterResult();
 
-            UserRegisterResult userRegisterResult = new UserRegisterResult();
-            
-            User user = new User();
+            try
+            {
+                User user = new();
 
-            user.Name = userRegistration.Name;
-            user.Email = userRegistration.Email;
-            user.UserName = userRegistration.UserName;
- 
-            user.Password = userRegistration.Password;
-   
-            user.Role = user.Role;
+                user.Name = userRegistration.Name;
+                user.Email = userRegistration.Email;
+                user.UserName = userRegistration.UserName;
 
-            string otp = Generaterandomnumber();
+                user.Password = userRegistration.Password;
+
+                user.Role = user.Role;
+
+                string otp = GenerateRandomNumber();
+
+                user.OtpManagers.Add(SetOtpManager(otp, "register"));
+
+                await _db.Users.AddAsync(user);
+
+                await _db.SaveChangesAsync();
+
+                registerResult.Result = "pass";
+
+                registerResult.Message = user.Id.ToString();
+
+                return registerResult;
+
+            }
+            catch (Exception ex)
+            {
+                registerResult.Result = "fail";
+
+                registerResult.Message = Convert.ToString("-1");
+
+                return registerResult;
+            }
+        }
 
 
-            await _db.Users.AddAsync(user);
+        private OtpManager SetOtpManager(string otpText, string optType)
+        {
+            OtpManager otpManager = new()
+            {
+                OtpText = otpText,
+                CreateddateDate = DateTime.Now,
+                ExpirationDate = DateTime.Now.AddMinutes(30),
+                OtpType = optType
+            };
 
-            int UserId = await _db.SaveChangesAsync();
-
-
-            return userRegisterResult;
+            return otpManager;
         }
 
 
 
 
-        private string Generaterandomnumber()
+        private string GenerateRandomNumber()
         {
             Random random = new Random();
 

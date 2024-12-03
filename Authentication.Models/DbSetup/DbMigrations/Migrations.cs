@@ -13,6 +13,7 @@ namespace Auth.Models.DbSetup.DataBaseMigrations
             _ = new Cascade_Delete();
             _ = new Drop_ForignKey();
             _ = new Cascada_Delete_OtpMangager_Table();
+
         }
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Authentication.Models.Model
 {
-    public class UserRegisterResult
+    public class RegisterResult
     {
+        public int ResponseCode { get; set; }
+        public string Result { get; set; }
+        public string Message { get; set; }
     }
 }

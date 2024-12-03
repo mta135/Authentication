@@ -12,7 +12,7 @@ namespace Authentication.Models.DbSetup.DbMigrations
     {
         public override void Down()
         {
-           
+       
         }
 
         public override void Up()
