@@ -1,5 +1,5 @@
 ﻿using Authentication.Api;
-using Authentication.Models.DataScheme;
+
 using Authentication.Models.Model;
 using Authentication.Models.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +35,8 @@ namespace Authentication.Models.Repositories.Real
 
                 user.OtpManagers.Add(SetOtpManager(otp, "register"));
 
+                user.TempUsers.Add(SetTempUser(userRegistration));
+                
                 await _db.Users.AddAsync(user);
 
                 await _db.SaveChangesAsync();
@@ -67,6 +69,19 @@ namespace Authentication.Models.Repositories.Real
             };
 
             return otpManager;
+        }
+
+        private TempUser SetTempUser(UserRegistration userRegistration)
+        {
+            TempUser tempUser = new TempUser
+            {
+                Name = userRegistration.Name,
+
+                Email = userRegistration.Email,
+                Password = userRegistration.Password,
+                Phone = userRegistration.Phone
+            };
+            return tempUser;
         }
 
         private string GenerateRandomNumber()

@@ -17,13 +17,15 @@ namespace Auth.Models.DbSetup.MigratorSetup
     {
         public static void ConfigureAndRunMigrations(IServiceCollection services)
         {
+            Assembly migrationAssembly = Assembly.Load("Authentication.Models");
+
             // Configure FluentMigrator
             services.AddFluentMigratorCore()
                 .ConfigureRunner(config =>
                 {
                     config.AddSqlServer()
                           .WithGlobalConnectionString(ConnectionString.Connection)
-                          .ScanIn(typeof(Migrations).Assembly).For.Migrations();
+                          .ScanIn(migrationAssembly).For.Migrations();
                 });
 
             // Build the service provider and run migrations

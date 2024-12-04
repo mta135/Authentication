@@ -1,4 +1,7 @@
-﻿namespace Authentication.Api;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Authentication.Api;
 
 public partial class OtpManager
 {

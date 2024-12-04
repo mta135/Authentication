@@ -15,5 +15,7 @@ public partial class TempUser
 
     public string? Email { get; set; }
 
+    public string? Phone { get; set; }
+
     public virtual User? User { get; set; }
 }
