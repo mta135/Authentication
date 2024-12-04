@@ -12,17 +12,20 @@ namespace Authentication.Models.DbSetup.DbMigrations
     {
         public override void Down()
         {
-            //Delete.ForeignKey("FK_OtpManager_Users").OnTable("OtpManager");
-
+            Delete.ForeignKey("FK_OtpManager_Users").OnTable("OtpManager");
         }
 
         public override void Up()
         {
+            if (!Schema.Table("OtpManager").Constraint("FK_OtpManager_Users").Exists())
+            {
+                Create.ForeignKey("FK_OtpManager_Users")
+                    .FromTable("OtpManager").ForeignColumn("UserId")
+                    .ToTable("User").PrimaryColumn("Id")
+                    .OnDeleteOrUpdate(System.Data.Rule.Cascade); // Set cascade on delete
+            }
 
-            Create.ForeignKey("FK_OtpManager_Users")
-                .FromTable("OtpManager").ForeignColumn("UserId")
-                .ToTable("User").PrimaryColumn("Id")
-                .OnDeleteOrUpdate(System.Data.Rule.Cascade); // Set cascade on delete
+
         }
     }
 }
