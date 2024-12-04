@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Authentication.Models.Model
 {
-    public class RegisterResult
+    public class APIResponse
     {
         public int ResponseCode { get; set; }
         public string Result { get; set; }

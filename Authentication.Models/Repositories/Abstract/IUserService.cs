@@ -9,6 +9,8 @@ namespace Authentication.Models.Repositories.Abstract
 {
     public interface IUserService
     {
-        Task<RegisterResult> UserRegister(UserRegistration userRegistration);
+        Task<APIResponse> UserRegister(UserRegistration userRegistration);
+
+        Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText);
     }
 }

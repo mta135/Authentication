@@ -2,6 +2,7 @@
 using Authentication.Models.DataScheme;
 using Authentication.Models.Model;
 using Authentication.Models.Repositories.Abstract;
+using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Models.Repositories.Real
 {
@@ -14,9 +15,9 @@ namespace Authentication.Models.Repositories.Real
             _db = new EcerereDbContext();
         }
 
-        public async Task<RegisterResult> UserRegister(UserRegistration userRegistration)
+        public async Task<APIResponse> UserRegister(UserRegistration userRegistration)
         {
-            RegisterResult registerResult = new RegisterResult();
+            APIResponse registerResult = new APIResponse();
 
             try
             {
@@ -55,7 +56,6 @@ namespace Authentication.Models.Repositories.Real
             }
         }
 
-
         private OtpManager SetOtpManager(string otpText, string optType)
         {
             OtpManager otpManager = new()
@@ -69,9 +69,6 @@ namespace Authentication.Models.Repositories.Real
             return otpManager;
         }
 
-
-
-
         private string GenerateRandomNumber()
         {
             Random random = new Random();
@@ -80,5 +77,22 @@ namespace Authentication.Models.Repositories.Real
             return randomno;
         }
 
+        public Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private async Task<bool> ValidateOTP(int? userId, string OTPText)
+        {
+            bool isValidOtp = false;
+
+            var _data = await _db.OtpManagers.FirstOrDefaultAsync(item => item.UserId == userId && item.OtpText == OTPText && item.ExpirationDate > DateTime.Now);
+
+            if (_data != null)
+                isValidOtp = true;
+           
+            return isValidOtp;
+        }
     }
 }

@@ -21,10 +21,10 @@ namespace Authentication.Api.Controllers
 
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegisterResult))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(APIResponse))]
         public async  Task<IActionResult> UserRegister(UserRegistration userRegistration)
         {
-            RegisterResult userRegisterResult = await userService.UserRegister(userRegistration);
+            APIResponse userRegisterResult = await userService.UserRegister(userRegistration);
 
             return Ok(userRegisterResult);
         }
