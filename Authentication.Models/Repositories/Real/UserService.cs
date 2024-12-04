@@ -77,22 +77,25 @@ namespace Authentication.Models.Repositories.Real
             return randomno;
         }
 
-        public Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText)
+        public async Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText)
         {
-            throw new NotImplementedException();
+            APIResponse response = new APIResponse();
+
+            bool otpResponse = await ValidateOTP(userId, otpText);
+
+            if (!otpResponse)
+            {
+                response.Result = "fail";
+                response.Message = "Invalid OTP or Expired";
+            }
+
+            return response;
         }
 
 
         private async Task<bool> ValidateOTP(int? userId, string OTPText)
         {
-            bool isValidOtp = false;
-
-            var _data = await _db.OtpManagers.FirstOrDefaultAsync(item => item.UserId == userId && item.OtpText == OTPText && item.ExpirationDate > DateTime.Now);
-
-            if (_data != null)
-                isValidOtp = true;
-           
-            return isValidOtp;
+            return  await _db.OtpManagers.AnyAsync(item => item.UserId == userId && item.OtpText == OTPText && item.ExpirationDate > DateTime.Now);
         }
     }
 }

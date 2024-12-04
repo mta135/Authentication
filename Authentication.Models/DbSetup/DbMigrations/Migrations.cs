@@ -12,7 +12,9 @@ namespace Auth.Models.DbSetup.DataBaseMigrations
             _ = new Create_Otp_Table();
             _ = new Cascade_Delete();
             _ = new Drop_ForignKey();
+
             _ = new Cascada_Delete_OtpMangager_Table();
+            _ = new Create_TempUser_Table();
 
         }
     }
