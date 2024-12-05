@@ -105,7 +105,14 @@ namespace Authentication.Models.Repositories.Real
             }
             else
             {
+                User user = await _db.Users.Where(x => x.Id == userId).FirstOrDefaultAsync() ?? new User();
+                user.IsConfirmed = true;
 
+                await _db.SaveChangesAsync();
+
+                response.Result = "pass";
+
+                response.Message = "Registered successfully.";
             }
 
             return response;

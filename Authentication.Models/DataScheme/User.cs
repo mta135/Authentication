@@ -19,6 +19,8 @@ public partial class User
 
     public string? UserName { get; set; }
 
+    public bool? IsConfirmed { get; set; }
+
     public virtual ICollection<OtpManager> OtpManagers { get; set; } = new List<OtpManager>();
 
     public virtual ICollection<TempUser> TempUsers { get; set; } = new List<TempUser>();
