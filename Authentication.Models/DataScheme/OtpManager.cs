@@ -17,5 +17,5 @@ public partial class OtpManager
 
     public DateTime? CreateddateDate { get; set; }
 
-    public virtual User? User { get; set; }
+    public virtual RegisteredUser? User { get; set; }
 }

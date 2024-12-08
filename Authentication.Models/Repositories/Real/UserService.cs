@@ -21,29 +21,29 @@ namespace Authentication.Models.Repositories.Real
 
             try
             {
-                User user = new();
+                RegisteredUser registstered = new();
 
-                user.Name = userRegistration.Name;
-                user.Email = userRegistration.Email;
-                user.UserName = userRegistration.UserName;
+                registstered.Name = userRegistration.Name;
+                registstered.Email = userRegistration.Email;
+                registstered.UserName = userRegistration.UserName;
 
-                user.Password = userRegistration.Password;
+                registstered.Password = userRegistration.Password;
 
-                user.Role = user.Role;
+                registstered.Role = registstered.Role;
 
                 string otp = GenerateRandomNumber();
 
-                user.OtpManagers.Add(SetOtpManager(otp, "register"));
+                registstered.OtpManagers.Add(SetOtpManager(otp, "register"));
 
-                user.TempUsers.Add(SetTempUser(userRegistration));
+                registstered.TempUsers.Add(SetTempUser(userRegistration));
                 
-                await _db.Users.AddAsync(user);
+                await _db.RegisteredUsers.AddAsync(registstered);
 
                 await _db.SaveChangesAsync();
 
                 registerResult.Result = "pass";
 
-                registerResult.Message = user.Id.ToString();
+                registerResult.Message = registstered.Id.ToString();
 
                 return registerResult;
 
@@ -105,7 +105,7 @@ namespace Authentication.Models.Repositories.Real
             }
             else
             {
-                User user = await _db.Users.Where(x => x.Id == userId).FirstOrDefaultAsync() ?? new User();
+                RegisteredUser user = await _db.RegisteredUsers.Where(x => x.Id == userId).FirstOrDefaultAsync() ?? new RegisteredUser();
                 user.IsConfirmed = true;
 
                 await _db.SaveChangesAsync();

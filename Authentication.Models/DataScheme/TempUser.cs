@@ -17,5 +17,5 @@ public partial class TempUser
 
     public string? Phone { get; set; }
 
-    public virtual User? User { get; set; }
+    public virtual RegisteredUser? User { get; set; }
 }

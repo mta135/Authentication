@@ -18,9 +18,9 @@ public partial class EcerereDbContext : DbContext
 
     public virtual DbSet<OtpManager> OtpManagers { get; set; }
 
-    public virtual DbSet<TempUser> TempUsers { get; set; }
+    public virtual DbSet<RegisteredUser> RegisteredUsers { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<TempUser> TempUsers { get; set; }
 
     public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
@@ -43,6 +43,20 @@ public partial class EcerereDbContext : DbContext
                 .HasConstraintName("FK_OtpManager_Users");
         });
 
+        modelBuilder.Entity<RegisteredUser>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_User");
+
+            entity.ToTable("RegisteredUser");
+
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.Role).HasMaxLength(50);
+            entity.Property(e => e.UserName).HasMaxLength(250);
+        });
+
         modelBuilder.Entity<TempUser>(entity =>
         {
             entity.ToTable("TempUser");
@@ -58,18 +72,6 @@ public partial class EcerereDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_TempUser_Users");
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.ToTable("User");
-
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.Role).HasMaxLength(50);
-            entity.Property(e => e.UserName).HasMaxLength(250);
         });
 
         modelBuilder.Entity<VersionInfo>(entity =>
