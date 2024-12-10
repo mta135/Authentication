@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Authentication.Models.Model
 {
-    public class ConfirmPassword
+    public class RegisterConfirm
     {
-        public int userid { get; set; }
-        public string username { get; set; }
-        public string otptext { get; set; }
+        public int UserId { get; set; }
+
+        public string UserName { get; set; }
+
+        public string OptText { get; set; }
     }
 }
