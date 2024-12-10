@@ -1,6 +1,7 @@
 ﻿using Authentication.Api;
 
 using Authentication.Models.Model;
+using Authentication.Models.Model.RegisteredUsers;
 using Authentication.Models.Repositories.Abstract;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ namespace Authentication.Models.Repositories.Real
             _db = new EcerereDbContext();
         }
 
-        public async Task<APIResponse> UserRegister(UserRegistration userRegistration)
+        public async Task<APIResponse> UserRegister(UserRegistrationModel userRegistration)
         {
             APIResponse registerResult = new APIResponse();
 
@@ -71,7 +72,7 @@ namespace Authentication.Models.Repositories.Real
             return otpManager;
         }
 
-        private TempUser SetTempUser(UserRegistration userRegistration)
+        private TempUser SetTempUser(UserRegistrationModel userRegistration)
         {
             TempUser tempUser = new TempUser
             {
@@ -116,6 +117,12 @@ namespace Authentication.Models.Repositories.Real
             }
 
             return response;
+        }
+
+
+        public async Task<RegisteredUser> GetRegisteredUser(RegisteredUserCredentialsModel userCred)
+        {
+            return await _db.RegisteredUsers.FirstOrDefaultAsync(x => x.UserName == userCred.UserName && x.Password == userCred.Password && x.IsActive == true);
         }
 
 

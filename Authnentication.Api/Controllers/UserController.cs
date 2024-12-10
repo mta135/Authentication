@@ -1,4 +1,5 @@
 ﻿using Authentication.Models.Model;
+using Authentication.Models.Model.RegisteredUsers;
 using Authentication.Models.Repositories.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace Authentication.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(APIResponse))]
-        public async  Task<IActionResult> UserRegister(UserRegistration userRegistration)
+        public async  Task<IActionResult> UserRegister(UserRegistrationModel userRegistration)
         {
             APIResponse userRegisterResult = await userService.UserRegister(userRegistration);
 
@@ -31,7 +32,7 @@ namespace Authentication.Api.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(APIResponse))]
-        public async Task<IActionResult> ConfirmRegisteration(RegisterConfirm confirmPassword)
+        public async Task<IActionResult> ConfirmRegisteration(RegisterConfirmModel confirmPassword)
         {
             APIResponse data = await userService.ConfirmRegister(confirmPassword.UserId, confirmPassword.UserName, confirmPassword.OptText);
 

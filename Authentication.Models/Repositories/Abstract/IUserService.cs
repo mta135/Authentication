@@ -1,4 +1,6 @@
-﻿using Authentication.Models.Model;
+﻿using Authentication.Api;
+using Authentication.Models.Model;
+using Authentication.Models.Model.RegisteredUsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +11,10 @@ namespace Authentication.Models.Repositories.Abstract
 {
     public interface IUserService
     {
-        Task<APIResponse> UserRegister(UserRegistration userRegistration);
+        Task<APIResponse> UserRegister(UserRegistrationModel userRegistration);
 
         Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText);
+
+        Task<RegisteredUser> GetRegisteredUser(RegisteredUserCredentialsModel userCred);
     }
 }
