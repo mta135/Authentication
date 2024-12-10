@@ -2,9 +2,13 @@
 using Auth.Models.DbSetup.DbSetupConnection;
 using Auth.Models.DbSetup.MigratorSetup;
 using Authentication.Api.Injection;
+using Authentication.Api.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 internal class Program
 {
@@ -22,17 +26,40 @@ internal class Program
              });
          });
 
-        #region Setup connection string
+        #region Initializer
 
         ConnectionString.InitializeSettings(builder.Configuration);
 
-        #endregion
-
-        #region Fluent Migrator Setup
-
         FluentMigratorSetup.ConfigureAndRunMigrations(builder.Services);
 
+        JwtTokenSettings.InitializeSettings(builder.Configuration);
+
         #endregion
+
+        #region Jwt Token
+
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = JwtTokenSettings.JwtIssuer,
+                    ValidAudience = JwtTokenSettings.JwtIssuer,
+
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenSettings.JwtKey ?? string.Empty))
+                };
+            });
+        //Jwt configuration ends here
+
+        #endregion;
+
+        builder.Services.AddAuthorization();
 
         builder.Services.AddControllers();
 
@@ -58,6 +85,7 @@ internal class Program
 
         app.UseCors("AllowAll");
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();
