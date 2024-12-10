@@ -24,9 +24,7 @@ public partial class EcerereDbContext : DbContext
 
     public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-        => optionsBuilder.UseSqlServer(ConnectionString.Connection);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(ConnectionString.Connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
