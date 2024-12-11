@@ -20,7 +20,7 @@ namespace Authentication.Models.Repositories.Real
             _db = new EcerereDbContext();
         }
 
-        public async Task<string> GenerateToken(string username)
+        public async Task<string> GenerateToken(int userId)
         {
             byte[] randomnumber = new byte[32];
 
@@ -30,7 +30,7 @@ namespace Authentication.Models.Repositories.Real
 
                 string refreshedToken = Convert.ToBase64String(randomnumber);
 
-                RefreshToken refreshToken = await _db.RefreshTokens.FirstOrDefaultAsync(item => item.UserId == Convert.ToInt32(username));
+                RefreshToken refreshToken = await _db.RefreshTokens.FirstOrDefaultAsync(item => item.UserId == userId);
 
                 if (refreshToken != null)
                     refreshToken.RefreshedToken = refreshedToken;
@@ -39,7 +39,7 @@ namespace Authentication.Models.Repositories.Real
                 {
                     RefreshToken dbRefreshToken = new()
                     {
-                        UserId = Convert.ToInt32(username),
+                        UserId = userId,
                         TokenId = new Random().Next().ToString(),
                         RefreshedToken = refreshedToken
                     };

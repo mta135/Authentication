@@ -15,6 +15,6 @@ namespace Authentication.Models.Repositories.Abstract
 
         Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText);
 
-        Task<RegisteredUser> GetRegisteredUser(RegisteredUserCredentialsModel userCred);
+        Task<RegisteredUser> GetRegisteredUser(UserCredentialsModel userCred);
     }
 }

@@ -12,6 +12,9 @@ using Authentication.Api.Settings;
 
 namespace Authentication.Api.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+
     public class AuthorizeController : Controller
     {
         private readonly IUserService userService;
@@ -24,9 +27,10 @@ namespace Authentication.Api.Controllers
             this.refreshHandler = refreshHandler;
         }
 
-        public async Task<IActionResult> GenerateToken(RegisteredUserCredentialsModel registeredUserCredentials)
+        [HttpPost]
+        public async Task<IActionResult> GenerateToken(UserCredentialsModel userCredentials)
         {
-            var user = await userService.GetRegisteredUser(registeredUserCredentials);
+            RegisteredUser user = await userService.GetRegisteredUser(userCredentials);
 
             if (user != null)
             {
@@ -38,8 +42,8 @@ namespace Authentication.Api.Controllers
                 {
                     Subject = new ClaimsIdentity(
                     [
-                        new Claim(ClaimTypes.Name,registeredUserCredentials.UserName),
-                        new Claim(ClaimTypes.Role,user.Role)
+                        new Claim(ClaimTypes.Name,userCredentials.UserName),
+                        //new Claim(ClaimTypes.Role,user.Role)
                     ]),
 
                     Expires = DateTime.UtcNow.AddSeconds(3000),
@@ -54,7 +58,7 @@ namespace Authentication.Api.Controllers
                 {
                     Token = finaltoken, 
 
-                    RefreshToken = await refreshHandler.GenerateToken(registeredUserCredentials.UserName),
+                    RefreshToken = await refreshHandler.GenerateToken(user.Id),
                     
                     UserRole = user.Role 
                 });

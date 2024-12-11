@@ -120,7 +120,7 @@ namespace Authentication.Models.Repositories.Real
         }
 
 
-        public async Task<RegisteredUser> GetRegisteredUser(RegisteredUserCredentialsModel userCred)
+        public async Task<RegisteredUser> GetRegisteredUser(UserCredentialsModel userCred)
         {
             return await _db.RegisteredUsers.FirstOrDefaultAsync(x => x.UserName == userCred.UserName && x.Password == userCred.Password && x.IsActive == true);
         }
