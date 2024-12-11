@@ -7,6 +7,8 @@ using System;
 using System.Threading.Tasks;
 using Authentication.Models.Repositories.Abstract;
 using Authentication.Models.Model.RegisteredUsers;
+using Authentication.Models.Model;
+using Authentication.Api.Settings;
 
 namespace Authentication.Api.Controllers
 {
@@ -23,33 +25,38 @@ namespace Authentication.Api.Controllers
         {
             var user = await userService.GetRegisteredUser(registeredUserCredentials);
 
-            //if (user != null)
-            //{
-            //    //generate token
-            //    var tokenhandler = new JwtSecurityTokenHandler();
-            //    var tokenkey = Encoding.UTF8.GetBytes(this.jwtSettings.securitykey);
-            //    var tokendesc = new SecurityTokenDescriptor
-            //    {
-            //        Subject = new ClaimsIdentity(new Claim[]
-            //        {
-            //            new Claim(ClaimTypes.Name,user.Username),
-            //            new Claim(ClaimTypes.Role,user.Role)
-            //        }),
-            //        Expires = DateTime.UtcNow.AddSeconds(3000),
-            //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenkey), SecurityAlgorithms.HmacSha256)
-            //    };
-            //    var token = tokenhandler.CreateToken(tokendesc);
-            //    var finaltoken = tokenhandler.WriteToken(token);
-            //    return Ok(new TokenResponse() { Token = finaltoken, RefreshToken = await this.refresh.GenerateToken(userCred.username), UserRole = user.Role });
+            if (user != null)
+            {
+                //generate token
+                var tokenhandler = new JwtSecurityTokenHandler();
 
-            //}
-            //else
-            //{
-            //    return Unauthorized();
-            //}
+                var tokenkey = Encoding.UTF8.GetBytes(JwtTokenSettings.JwtKey);
+                var tokendesc = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(
+                    [
+                        new Claim(ClaimTypes.Name,registeredUserCredentials.UserName),
+                        new Claim(ClaimTypes.Role,user.Role)
+                    ]),
 
+                    Expires = DateTime.UtcNow.AddSeconds(3000),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenkey), SecurityAlgorithms.HmacSha256)
+                };
 
-            return null;
+                var token = tokenhandler.CreateToken(tokendesc);
+
+                var finaltoken = tokenhandler.WriteToken(token);
+
+                return Ok(new TokenResponse() {
+                    Token = finaltoken, 
+                    //RefreshToken = await this.refresh.GenerateToken(registeredUserCredentials.UserName),
+                    UserRole = user.Role 
+                });
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
     }
 }
