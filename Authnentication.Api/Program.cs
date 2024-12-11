@@ -28,7 +28,7 @@ internal class Program
 
         #region Initializer
 
-        EcerereConnectionString.InitializeSettings(builder.Configuration);
+        ConnectionStringSettings.InitializeSettings(builder.Configuration);
 
         FluentMigratorSetup.ConfigureAndRunMigrations(builder.Services);
 

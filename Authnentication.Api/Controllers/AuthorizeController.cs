@@ -16,9 +16,12 @@ namespace Authentication.Api.Controllers
     {
         private readonly IUserService userService;
 
-        public AuthorizeController(IUserService userService)
+        private readonly IRefreshHandler refreshHandler;
+
+        public AuthorizeController(IUserService userService, IRefreshHandler refreshHandler)
         {
             this.userService = userService;
+            this.refreshHandler = refreshHandler;
         }
 
         public async Task<IActionResult> GenerateToken(RegisteredUserCredentialsModel registeredUserCredentials)
@@ -47,9 +50,12 @@ namespace Authentication.Api.Controllers
 
                 var finaltoken = tokenhandler.WriteToken(token);
 
-                return Ok(new TokenResponse() {
+                return Ok(new TokenResponse()
+                {
                     Token = finaltoken, 
-                    //RefreshToken = await this.refresh.GenerateToken(registeredUserCredentials.UserName),
+
+                    RefreshToken = await refreshHandler.GenerateToken(registeredUserCredentials.UserName),
+                    
                     UserRole = user.Role 
                 });
             }

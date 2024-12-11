@@ -26,9 +26,9 @@ public partial class EcerereDbContext : DbContext
 
     public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlServer(EcerereConnectionString.Connection);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
-
+        => optionsBuilder.UseSqlServer(ConnectionStringSettings.Connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -53,8 +53,7 @@ public partial class EcerereDbContext : DbContext
 
             entity.HasIndex(e => e.UserId, "IX_RefreshToken_Id");
 
-            entity.Property(e => e.RefreshToken1).HasColumnName("RefreshToken");
-            entity.Property(e => e.TokenId).HasMaxLength(255);
+            entity.Property(e => e.TokenId).HasMaxLength(50);
 
             entity.HasOne(d => d.User).WithMany()
                 .HasForeignKey(d => d.UserId)

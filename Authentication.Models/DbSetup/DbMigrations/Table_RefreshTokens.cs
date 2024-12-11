@@ -19,8 +19,9 @@ namespace Authentication.Models.DbSetup.DbMigrations
         {
             Create.Table("RefreshToken")
               .WithColumn("UserId").AsInt32().Nullable()
-              .WithColumn("TokenId").AsString().Nullable()
-              .WithColumn("RefreshToken").AsString(int.MaxValue).Nullable()
+              .WithColumn("TokenId").AsString(50).Nullable()
+
+              .WithColumn("RefreshedToken").AsString(int.MaxValue).Nullable()
               .WithColumn("IsActive").AsBoolean().Nullable();
 
             Create.ForeignKey("FK_RefreshToken_Users")

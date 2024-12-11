@@ -9,6 +9,7 @@ namespace Authentication.Api.Injection
         public static void DependecyInjection(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRefreshHandler, RefreshHandler>();
         }
     }
 }

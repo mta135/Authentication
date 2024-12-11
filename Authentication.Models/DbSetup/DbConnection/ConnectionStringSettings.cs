@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Auth.Models.DbSetup.DbSetupConnection
 {
-    public static class EcerereConnectionString
+    public static class ConnectionStringSettings
     {
         public static string Connection { get; private set; }
 

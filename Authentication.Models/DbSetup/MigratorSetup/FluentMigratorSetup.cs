@@ -24,7 +24,7 @@ namespace Auth.Models.DbSetup.MigratorSetup
                 .ConfigureRunner(config =>
                 {
                     config.AddSqlServer()
-                          .WithGlobalConnectionString(EcerereConnectionString.Connection)
+                          .WithGlobalConnectionString(ConnectionStringSettings.Connection)
                           .ScanIn(migrationAssembly).For.Migrations();
                 });
 

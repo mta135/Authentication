@@ -9,7 +9,7 @@ public partial class RefreshToken
 
     public string TokenId { get; set; }
 
-    public string RefreshToken1 { get; set; }
+    public string RefreshedToken { get; set; }
 
     public bool? IsActive { get; set; }
 
