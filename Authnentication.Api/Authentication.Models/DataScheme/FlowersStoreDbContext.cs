@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Auth.Models.DbSetup.DbSetupConnection;
+using Authentication.Models.DbConnection;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Api.Authentication.Models.DataScheme;

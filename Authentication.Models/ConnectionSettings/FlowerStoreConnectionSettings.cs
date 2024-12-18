@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Auth.Models.DbSetup.DbSetupConnection
+namespace Authentication.Models.DbConnection
 {
     public static class FlowerStoreConnectionSettings
     {

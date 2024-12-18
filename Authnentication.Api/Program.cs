@@ -1,7 +1,6 @@
-
-using Auth.Models.DbSetup.DbSetupConnection;
 using Authentication.Api.Injection;
 using Authentication.Api.Settings;
+using Authentication.Models.DbConnection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
