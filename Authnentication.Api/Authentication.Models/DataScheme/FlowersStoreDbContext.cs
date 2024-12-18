@@ -41,6 +41,7 @@ public partial class FlowersStoreDbContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.OtpManagers)
                 .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_OtpManager_RegisteredUser");
         });
 

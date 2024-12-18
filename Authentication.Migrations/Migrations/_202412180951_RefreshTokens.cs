@@ -23,6 +23,7 @@ namespace Authentication.Models.DbSetup.DbMigrations
                 .WithColumn("Id").AsInt32().Identity(1, 1).PrimaryKey()
                 .WithColumn("UserId").AsInt32().Nullable()
                 .WithColumn("TokenId").AsString(50).Nullable()
+
                 .WithColumn("RefreshedToken").AsString(int.MaxValue).Nullable()    
                 .WithColumn("IsActive").AsBoolean().Nullable();
 
