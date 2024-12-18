@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Api;
 
-public partial class EcerereDbContext : DbContext
+public partial class FlowersStoreDbContext : DbContext
 {
-    public EcerereDbContext()
+    public FlowersStoreDbContext()
     {
     }
 
-    public EcerereDbContext(DbContextOptions<EcerereDbContext> options)
-        : base(options)
+    public FlowersStoreDbContext(DbContextOptions<FlowersStoreDbContext> options) : base(options)
+
     {
     }
 
@@ -24,11 +24,11 @@ public partial class EcerereDbContext : DbContext
 
     public virtual DbSet<TempUser> TempUsers { get; set; }
 
-    public virtual DbSet<VersionInfo> VersionInfos { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
-        => optionsBuilder.UseSqlServer(ConnectionStringSettings.Connection);
+        => optionsBuilder.UseSqlServer(FlowerStoreConnectionSettings.Connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -92,21 +92,7 @@ public partial class EcerereDbContext : DbContext
                 .HasConstraintName("FK_TempUser_Users");
         });
 
-        modelBuilder.Entity<VersionInfo>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("VersionInfo");
-
-            entity.HasIndex(e => e.Version, "UC_Version")
-                .IsUnique()
-                .IsClustered();
-
-            entity.Property(e => e.AppliedOn).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(1024);
-        });
-
-        OnModelCreatingPartial(modelBuilder);
+       
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

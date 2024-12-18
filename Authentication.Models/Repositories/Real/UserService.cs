@@ -9,11 +9,11 @@ namespace Authentication.Models.Repositories.Real
 {
     public class UserService : IUserService
     {
-        private readonly EcerereDbContext _db;
+        private readonly FlowersStoreDbContext _db;
 
         public UserService()
         {
-            _db = new EcerereDbContext();
+            _db = new FlowersStoreDbContext();
         }
 
         public async Task<APIResponse> UserRegister(UserRegistrationModel userRegistration)
@@ -49,9 +49,9 @@ namespace Authentication.Models.Repositories.Real
                 return registerResult;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                registerResult.Result = "fail";
+                registerResult.Result = "fail" ;
 
                 registerResult.Message = Convert.ToString("-1");
 

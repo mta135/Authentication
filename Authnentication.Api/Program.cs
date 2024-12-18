@@ -1,6 +1,5 @@
 
 using Auth.Models.DbSetup.DbSetupConnection;
-using Auth.Models.DbSetup.MigratorSetup;
 using Authentication.Api.Injection;
 using Authentication.Api.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,9 +27,7 @@ internal class Program
 
         #region Initializer
 
-        ConnectionStringSettings.InitializeSettings(builder.Configuration);
-
-        FluentMigratorSetup.ConfigureAndRunMigrations(builder.Services);
+        FlowerStoreConnectionSettings.InitializeSettings(builder.Configuration);
 
         JwtTokenSettings.InitializeSettings(builder.Configuration);
 
@@ -52,7 +49,7 @@ internal class Program
                     ValidIssuer = JwtTokenSettings.JwtIssuer,
                     ValidAudience = JwtTokenSettings.JwtIssuer,
 
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenSettings.JwtKey ?? string.Empty))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenSettings.JwtKey))
                 };
             });
         //Jwt configuration ends here
@@ -65,7 +62,7 @@ internal class Program
 
         #region Register Dependecy Injection
 
-        DependencyInjectionResolver.DependecyInjection(builder.Services);
+        DependencyResolver.DependecyInjection(builder.Services);
 
         #endregion
 

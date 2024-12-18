@@ -1,4 +1,5 @@
 ﻿using FluentMigrator;
+using FluentMigrator.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Authentication.Models.DbSetup.DbMigrations
 {
-    [Migration(11)]
-    public class Table_RefreshTokens : Migration
+    [Migration(202412180951)]
+    public class _202412180951_RefreshTokens : Migration
     {
         public override void Down()
         {
@@ -18,13 +19,14 @@ namespace Authentication.Models.DbSetup.DbMigrations
         public override void Up()
         {
             Create.Table("RefreshToken")
-              .WithColumn("UserId").AsInt32().Nullable()
-              .WithColumn("TokenId").AsString(50).Nullable()
 
-              .WithColumn("RefreshedToken").AsString(int.MaxValue).Nullable()
-              .WithColumn("IsActive").AsBoolean().Nullable();
+                .WithColumn("Id").AsInt32().Identity(1, 1).PrimaryKey()
+                .WithColumn("UserId").AsInt32().Nullable()
+                .WithColumn("TokenId").AsString(50).Nullable()
+                .WithColumn("RefreshedToken").AsString(int.MaxValue).Nullable()    
+                .WithColumn("IsActive").AsBoolean().Nullable();
 
-            Create.ForeignKey("FK_RefreshToken_Users")
+            Create.ForeignKey("FK_RefreshToken_RegisteredUser")
                 .FromTable("RefreshToken").ForeignColumn("UserId").ToTable("RegisteredUser").PrimaryColumn("Id").OnDelete(System.Data.Rule.Cascade);
 
             Create.Index("IX_RefreshToken_Id").OnTable("RefreshToken")

@@ -4,11 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Authentication.Api.Injection
 {
-    public static class DependencyInjectionResolver
+    public static class DependencyResolver
     {
         public static void DependecyInjection(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+
             services.AddScoped<IRefreshHandler, RefreshHandler>();
         }
     }

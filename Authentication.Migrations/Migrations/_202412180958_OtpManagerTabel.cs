@@ -1,9 +1,10 @@
 ﻿using FluentMigrator;
+using FluentMigrator.SqlServer;
 
 namespace Authentication.Models.DbSetup.DbMigrations
 {
-    [Migration(3)]
-    public class Create_Otp_Table : Migration
+    [Migration(202412180958)]
+    public class _202412180958_OtpManagerTabel : Migration
     {
         public override void Down()
         {
@@ -13,7 +14,7 @@ namespace Authentication.Models.DbSetup.DbMigrations
         public override void Up()
         {
             Create.Table("OtpManager")
-                 .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity()
+                 .WithColumn("Id").AsInt32().NotNullable().PrimaryKey().Identity(1, 1)
 
                  .WithColumn("UserId").AsInt32().Nullable()
                  .WithColumn("OtpText").AsString(50).Nullable()
@@ -22,9 +23,9 @@ namespace Authentication.Models.DbSetup.DbMigrations
                  .WithColumn("ExpirationDate").AsDateTime2().Nullable()
                  .WithColumn("CreateddateDate").AsDateTime2().Nullable();
 
-            Create.ForeignKey("FK_OtpManager_Users")
-                .FromTable("OtpManager").ForeignColumn("UserId")
-                .ToTable("User").PrimaryColumn("Id");
+            Create.ForeignKey("FK_OtpManager_RegisteredUser")
+               .FromTable("OtpManager").ForeignColumn("UserId")
+               .ToTable("RegisteredUser").PrimaryColumn("Id").OnDelete(System.Data.Rule.Cascade);
 
         }
     }

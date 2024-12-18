@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Authentication.Api;
+namespace Authentication.Api.Authentication.Models.DataScheme;
 
 public partial class VersionInfo
 {

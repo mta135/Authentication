@@ -13,11 +13,11 @@ namespace Authentication.Models.Repositories.Real
 {
     public class RefreshHandler : IRefreshHandler
     {
-        private readonly EcerereDbContext _db;
+        private readonly FlowersStoreDbContext _db;
 
         public RefreshHandler()
         {
-            _db = new EcerereDbContext();
+            _db = new FlowersStoreDbContext();
         }
 
         public async Task<string> GenerateToken(int userId)

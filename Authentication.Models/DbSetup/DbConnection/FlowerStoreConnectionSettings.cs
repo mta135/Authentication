@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Auth.Models.DbSetup.DbSetupConnection
 {
-    public static class ConnectionStringSettings
+    public static class FlowerStoreConnectionSettings
     {
         public static string Connection { get; private set; }
 
