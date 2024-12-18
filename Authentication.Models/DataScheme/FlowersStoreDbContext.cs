@@ -16,21 +16,36 @@ public partial class FlowersStoreDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Menu> Menus { get; set; }
+
     public virtual DbSet<OtpManager> OtpManagers { get; set; }
+
+    public virtual DbSet<Permission> Permissions { get; set; }
 
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public virtual DbSet<RegisteredUser> RegisteredUsers { get; set; }
+
+    public virtual DbSet<RegisteredUserRole> RegisteredUserRoles { get; set; }
 
     public virtual DbSet<TempUser> TempUsers { get; set; }
 
     public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-      => optionsBuilder.UseSqlServer(FlowerStoreConnectionSettings.Connection);
+
+        => optionsBuilder.UseSqlServer(FlowerStoreConnectionSettings.Connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Menu>(entity =>
+        {
+            entity.ToTable("Menu");
+
+            entity.Property(e => e.LinkName).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<OtpManager>(entity =>
         {
             entity.ToTable("OtpManager");
@@ -42,6 +57,21 @@ public partial class FlowersStoreDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_OtpManager_RegisteredUser");
+        });
+
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.ToTable("Permission");
+
+            entity.HasOne(d => d.Menu).WithMany(p => p.Permissions)
+                .HasForeignKey(d => d.MenuId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Permission_Menu");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.Permissions)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Permission_RegisteredUserRole");
         });
 
         modelBuilder.Entity<RefreshToken>(entity =>
@@ -68,6 +98,13 @@ public partial class FlowersStoreDbContext : DbContext
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Role).HasMaxLength(50);
             entity.Property(e => e.UserName).HasMaxLength(250);
+        });
+
+        modelBuilder.Entity<RegisteredUserRole>(entity =>
+        {
+            entity.ToTable("RegisteredUserRole");
+
+            entity.Property(e => e.Name).HasMaxLength(50);
         });
 
         modelBuilder.Entity<TempUser>(entity =>
