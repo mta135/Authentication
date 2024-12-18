@@ -22,34 +22,42 @@ namespace Authentication.Models.Repositories.Real
 
         public async Task<string> GenerateToken(int userId)
         {
-            byte[] randomnumber = new byte[32];
-
-            using (var randomnumbergenerator = RandomNumberGenerator.Create())
+            try
             {
-                randomnumbergenerator.GetBytes(randomnumber);
+                byte[] randomnumber = new byte[32];
 
-                string refreshedToken = Convert.ToBase64String(randomnumber);
-
-                RefreshToken refreshToken = await _db.RefreshTokens.FirstOrDefaultAsync(item => item.UserId == userId);
-
-                if (refreshToken != null)
-                    refreshToken.RefreshedToken = refreshedToken;
-              
-                else
+                using (var randomnumbergenerator = RandomNumberGenerator.Create())
                 {
-                    RefreshToken dbRefreshToken = new()
+                    randomnumbergenerator.GetBytes(randomnumber);
+
+                    string refreshedToken = Convert.ToBase64String(randomnumber);
+
+                    RefreshToken refreshToken = await _db.RefreshTokens.FirstOrDefaultAsync(item => item.UserId == userId);
+
+                    if (refreshToken != null)
+                        refreshToken.RefreshedToken = refreshedToken;
+
+                    else
                     {
-                        UserId = userId,
-                        TokenId = new Random().Next().ToString(),
-                        RefreshedToken = refreshedToken
-                    };
+                        RefreshToken dbRefreshToken = new()
+                        {
+                            UserId = userId,
+                            TokenId = new Random().Next().ToString(),
+                            RefreshedToken = refreshedToken
+                        };
 
-                    await _db.RefreshTokens.AddAsync(dbRefreshToken);
+                        await _db.RefreshTokens.AddAsync(dbRefreshToken);
 
-                    await _db.SaveChangesAsync();
+                        await _db.SaveChangesAsync();
+                    }
+
+                    return refreshedToken;
                 }
-             
-                return refreshedToken;
+
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }
