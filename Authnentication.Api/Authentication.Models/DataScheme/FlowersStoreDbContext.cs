@@ -27,7 +27,7 @@ public partial class FlowersStoreDbContext : DbContext
     public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
+     
         => optionsBuilder.UseSqlServer(FlowerStoreConnectionSettings.Connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
