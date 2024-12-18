@@ -20,7 +20,7 @@ namespace Authentication.Models.DbSetup.DbMigrations
         {
             Create.Table("RefreshToken")
 
-                .WithColumn("Id").AsInt32().Identity(1, 1).PrimaryKey()
+                .WithColumn("Id").AsInt32().Identity(1, 1).PrimaryKey().NotNullable()
                 .WithColumn("UserId").AsInt32().Nullable()
                 .WithColumn("TokenId").AsString(50).Nullable()
 

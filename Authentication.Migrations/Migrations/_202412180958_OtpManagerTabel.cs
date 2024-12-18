@@ -1,9 +1,15 @@
 ﻿using FluentMigrator;
 using FluentMigrator.SqlServer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Authentication.Models.DbSetup.DbMigrations
+namespace Authentication.Migrations.Migrations
 {
-    [Migration(202412180958)]
+    [Migration(202412180958)]    
+    
     public class _202412180958_OtpManagerTabel : Migration
     {
         public override void Down()
@@ -30,3 +36,5 @@ namespace Authentication.Models.DbSetup.DbMigrations
         }
     }
 }
+
+

@@ -32,34 +32,7 @@ public partial class FlowersStoreDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<OtpManager>(entity =>
-        {
-            entity.ToTable("OtpManager");
-
-            entity.Property(e => e.OtpText).HasMaxLength(50);
-            entity.Property(e => e.OtpType).HasMaxLength(50);
-
-            entity.HasOne(d => d.User).WithMany(p => p.OtpManagers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_OtpManager_Users");
-        });
-
-        modelBuilder.Entity<RefreshToken>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("RefreshToken");
-
-            entity.HasIndex(e => e.UserId, "IX_RefreshToken_Id");
-
-            entity.Property(e => e.TokenId).HasMaxLength(50);
-
-            entity.HasOne(d => d.User).WithMany()
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_RefreshToken_Users");
-        });
+       
 
         modelBuilder.Entity<RegisteredUser>(entity =>
         {
@@ -75,22 +48,7 @@ public partial class FlowersStoreDbContext : DbContext
             entity.Property(e => e.UserName).HasMaxLength(250);
         });
 
-        modelBuilder.Entity<TempUser>(entity =>
-        {
-            entity.ToTable("TempUser");
-
-            entity.HasIndex(e => e.Id, "IX_TempUser_Id");
-
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.Phone).HasMaxLength(50);
-
-            entity.HasOne(d => d.User).WithMany(p => p.TempUsers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_TempUser_Users");
-        });
+       
 
        
     }

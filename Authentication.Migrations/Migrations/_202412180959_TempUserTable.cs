@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Authentication.Models.DbSetup.DbMigrations
+namespace Authentication.Migrations.Migrations
 {
     [Migration(202412180959)]
     public class _202412180959_TempUserTable : Migration
@@ -36,3 +36,4 @@ namespace Authentication.Models.DbSetup.DbMigrations
         }
     }
 }
+
