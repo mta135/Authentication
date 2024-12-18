@@ -106,7 +106,8 @@ namespace Authentication.Models.Repositories.Real
             }
             else
             {
-                RegisteredUser user = await _db.RegisteredUsers.Where(x => x.Id == userId).FirstOrDefaultAsync() ?? new RegisteredUser();
+                RegisteredUser user = await _db.RegisteredUsers.Where(x => x.Id == userId).FirstOrDefaultAsync();
+                user.Role = "user";
                 user.IsConfirmed = true;
 
                 await _db.SaveChangesAsync();
