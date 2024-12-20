@@ -32,6 +32,8 @@ namespace Authentication.Models.Repositories.Real
 
                 registstered.Role = registstered.Role;
 
+                registstered.NrCont = userRegistration.NrCont;
+
                 string otp = GenerateRandomNumber();
 
                 registstered.OtpManagers.Add(SetOtpManager(otp, "register"));

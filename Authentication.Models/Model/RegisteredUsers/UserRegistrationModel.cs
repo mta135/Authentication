@@ -18,5 +18,7 @@ namespace Authentication.Models.Model.RegisteredUsers
         public string Phone { get; set; }
 
         public string Password { get; set; }
+
+        public string NrCont { get; set; }
     }
 }
