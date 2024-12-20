@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Authentication.Models.DbConnection;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Api;
@@ -33,8 +32,8 @@ public partial class FlowersStoreDbContext : DbContext
     public virtual DbSet<VersionInfo> VersionInfos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-        => optionsBuilder.UseSqlServer(FlowerStoreConnectionSettings.Connection);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=devdsi;Initial Catalog=FlowersStore;User ID=sa;Password=sa;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -95,6 +94,7 @@ public partial class FlowersStoreDbContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.NrCont).HasMaxLength(5);
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Role).HasMaxLength(50);
             entity.Property(e => e.UserName).HasMaxLength(250);

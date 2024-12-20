@@ -21,6 +21,8 @@ public partial class RegisteredUser
 
     public bool? IsConfirmed { get; set; }
 
+    public string NrCont { get; set; }
+
     public virtual ICollection<OtpManager> OtpManagers { get; set; } = new List<OtpManager>();
 
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
