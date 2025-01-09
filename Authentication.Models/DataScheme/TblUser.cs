@@ -5,7 +5,7 @@ namespace Authentication.Api;
 
 public partial class TblUser
 {
-    public string Userid { get; set; }
+    public int Userid { get; set; }
 
     public string Name { get; set; }
 

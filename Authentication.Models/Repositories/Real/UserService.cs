@@ -22,7 +22,6 @@ namespace Authentication.Models.Repositories.Real
 
             try
             {
-                //RegisteredUser registstered = new();
 
                 TblUser registstered = new TblUser();
 
@@ -33,7 +32,6 @@ namespace Authentication.Models.Repositories.Real
                 registstered.Password = userRegistration.Password;
 
                 registstered.Role = registstered.Role;
-
 
                 string otp = GenerateRandomNumber();
 

@@ -27,7 +27,7 @@ namespace Authentication.Api.Controllers
         {
             APIResponse userRegisterResult = await userService.UserRegister(userRegistration);
 
-            return Ok(null);
+            return Ok(userRegisterResult);
         }
 
         [HttpPost]

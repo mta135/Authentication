@@ -90,10 +90,6 @@ public partial class FlowersStoreDbContext : DbContext
 
             entity.ToTable("tbl_user");
 
-            entity.Property(e => e.Userid)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("userid");
             entity.Property(e => e.Email)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -103,8 +99,7 @@ public partial class FlowersStoreDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("password");
+                .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(50)
                 .IsUnicode(false);
