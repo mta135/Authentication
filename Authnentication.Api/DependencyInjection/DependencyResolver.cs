@@ -10,7 +10,7 @@ namespace Authentication.Api.Injection
         {
             services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<IRefreshHandler, RefreshHandler>();
+            //services.AddScoped<IRefreshHandler, RefreshHandler>();
         }
     }
 }

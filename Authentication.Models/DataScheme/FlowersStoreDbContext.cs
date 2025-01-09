@@ -15,21 +15,11 @@ public partial class FlowersStoreDbContext : DbContext
     {
     }
 
-    public virtual DbSet<Menu> Menus { get; set; }
+    public virtual DbSet<TblOtpManager> TblOtpManagers { get; set; }
 
-    public virtual DbSet<OtpManager> OtpManagers { get; set; }
+    public virtual DbSet<TblTempuser> TblTempusers { get; set; }
 
-    public virtual DbSet<Permission> Permissions { get; set; }
-
-    public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
-
-    public virtual DbSet<RegisteredUser> RegisteredUsers { get; set; }
-
-    public virtual DbSet<RegisteredUserRole> RegisteredUserRoles { get; set; }
-
-    public virtual DbSet<TempUser> TempUsers { get; set; }
-
-    public virtual DbSet<VersionInfo> VersionInfos { get; set; }
+    public virtual DbSet<TblUser> TblUsers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -37,105 +27,87 @@ public partial class FlowersStoreDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Menu>(entity =>
+        modelBuilder.Entity<TblOtpManager>(entity =>
         {
-            entity.ToTable("Menu");
+            entity.ToTable("tbl_otpManager");
 
-            entity.Property(e => e.LinkName).HasMaxLength(50);
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("datetime")
+                .HasColumnName("createddate");
+            entity.Property(e => e.Expiration)
+                .HasColumnType("datetime")
+                .HasColumnName("expiration");
+            entity.Property(e => e.Otptext)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("otptext");
+            entity.Property(e => e.Otptype)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("otptype");
+            entity.Property(e => e.Username)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("username");
         });
 
-        modelBuilder.Entity<OtpManager>(entity =>
+        modelBuilder.Entity<TblTempuser>(entity =>
         {
-            entity.ToTable("OtpManager");
+            entity.HasKey(e => e.Id).HasName("tbl_tempuser1");
 
-            entity.Property(e => e.OtpText).HasMaxLength(50);
-            entity.Property(e => e.OtpType).HasMaxLength(50);
+            entity.ToTable("tbl_tempuser");
 
-            entity.HasOne(d => d.User).WithMany(p => p.OtpManagers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_OtpManager_RegisteredUser");
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Code)
+                .IsRequired()
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("code");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("email");
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("name");
+            entity.Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("password");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("phone");
         });
 
-        modelBuilder.Entity<Permission>(entity =>
+        modelBuilder.Entity<TblUser>(entity =>
         {
-            entity.ToTable("Permission");
+            entity.HasKey(e => e.Userid);
 
-            entity.HasOne(d => d.Menu).WithMany(p => p.Permissions)
-                .HasForeignKey(d => d.MenuId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Permission_Menu");
+            entity.ToTable("tbl_user");
 
-            entity.HasOne(d => d.Role).WithMany(p => p.Permissions)
-                .HasForeignKey(d => d.RoleId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_Permission_RegisteredUserRole");
-        });
-
-        modelBuilder.Entity<RefreshToken>(entity =>
-        {
-            entity.ToTable("RefreshToken");
-
-            entity.HasIndex(e => e.UserId, "IX_RefreshToken_Id");
-
-            entity.Property(e => e.TokenId).HasMaxLength(50);
-
-            entity.HasOne(d => d.User).WithMany(p => p.RefreshTokens)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_RefreshToken_RegisteredUser");
-        });
-
-        modelBuilder.Entity<RegisteredUser>(entity =>
-        {
-            entity.ToTable("RegisteredUser");
-
-            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Userid)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("userid");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.NrCont).HasMaxLength(5);
-            entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.Role).HasMaxLength(50);
-            entity.Property(e => e.UserName).HasMaxLength(250);
-        });
-
-        modelBuilder.Entity<RegisteredUserRole>(entity =>
-        {
-            entity.ToTable("RegisteredUserRole");
-
-            entity.Property(e => e.Name).HasMaxLength(50);
-        });
-
-        modelBuilder.Entity<TempUser>(entity =>
-        {
-            entity.ToTable("TempUser");
-
-            entity.HasIndex(e => e.Id, "IX_TempUser_Id");
-
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.Password).HasMaxLength(50);
-            entity.Property(e => e.Phone).HasMaxLength(50);
-
-            entity.HasOne(d => d.User).WithMany(p => p.TempUsers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_TempUser_Users");
-        });
-
-        modelBuilder.Entity<VersionInfo>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("VersionInfo");
-
-            entity.HasIndex(e => e.Version, "UC_Version")
-                .IsUnique()
-                .IsClustered();
-
-            entity.Property(e => e.AppliedOn).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(1024);
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("password");
+            entity.Property(e => e.Role)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

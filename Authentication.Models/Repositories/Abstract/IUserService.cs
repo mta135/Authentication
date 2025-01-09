@@ -13,8 +13,8 @@ namespace Authentication.Models.Repositories.Abstract
     {
         Task<APIResponse> UserRegister(UserRegistrationModel userRegistration);
 
-        Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText);
+        //Task<APIResponse> ConfirmRegister(int userId, string userName, string otpText);
 
-        Task<RegisteredUser> GetRegisteredUser(UserCredentialsModel userCred);
+        //Task<RegisteredUser> GetRegisteredUser(UserCredentialsModel userCred);
     }
 }

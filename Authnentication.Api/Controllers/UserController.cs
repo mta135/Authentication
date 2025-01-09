@@ -27,16 +27,16 @@ namespace Authentication.Api.Controllers
         {
             APIResponse userRegisterResult = await userService.UserRegister(userRegistration);
 
-            return Ok(userRegisterResult);
+            return Ok(null);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(APIResponse))]
         public async Task<IActionResult> ConfirmRegisteration(RegisterConfirmModel confirmPassword)
         {
-            APIResponse data = await userService.ConfirmRegister(confirmPassword.UserId, confirmPassword.UserName, confirmPassword.OptText);
+            //APIResponse data = await userService.ConfirmRegister(confirmPassword.UserId, confirmPassword.UserName, confirmPassword.OptText);
 
-            return Ok(data);
+            return Ok(null);
         }
     }
 }
