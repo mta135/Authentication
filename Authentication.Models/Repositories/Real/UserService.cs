@@ -3,6 +3,7 @@
 using Authentication.Models.Model;
 using Authentication.Models.Model.RegisteredUsers;
 using Authentication.Models.Repositories.Abstract;
+using Azure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Authentication.Models.Repositories.Real
@@ -22,33 +23,27 @@ namespace Authentication.Models.Repositories.Real
 
             try
             {
+                TblTempuser _tempuser = new TblTempuser()
+                {
+                    Code = userRegistration.UserName,
+                    Name = userRegistration.Name,
+                    Email = userRegistration.Email,
+                    Password = userRegistration.Password,
+                    Phone = userRegistration.Phone,
+                };
 
-                TblUser registstered = new TblUser();
-
-                registstered.Name = userRegistration.Name;
-                registstered.Email = userRegistration.Email;
-                registstered.Name = userRegistration.UserName;
-
-                registstered.Password = userRegistration.Password;
-
-                registstered.Role = registstered.Role;
-
-                string otp = GenerateRandomNumber();
-
-                //registstered..Add(SetOtpManager(otp, "register"));
-
-                //registstered.TempUsers.Add(SetTempUser(userRegistration));
-
-                await _db.TblUsers.AddAsync(registstered);
-
+                await _db.TblTempusers.AddAsync(_tempuser);
                 await _db.SaveChangesAsync();
 
-                registerResult.Result = "pass";
+                int userid = _tempuser.Id;
+                string otp = GenerateRandomNumber();
 
-                //registerResult.Message = registstered.Id.ToString();
+                await UpdateOtp(userRegistration.UserName, otp, "register");
+
+                registerResult.Result = "pass";
+                registerResult.Message = userid.ToString();
 
                 return registerResult;
-
             }
             catch (Exception)
             {
@@ -58,6 +53,21 @@ namespace Authentication.Models.Repositories.Real
 
                 return registerResult;
             }
+        }
+
+        private async Task UpdateOtp(string username, string otptext, string otptype)
+        {
+            var _opt = new TblOtpManager()
+            {
+                Username = username,
+                Otptext = otptext,
+                Expiration = DateTime.Now.AddMinutes(30),
+                Createddate = DateTime.Now,
+                Otptype = otptype
+            };
+
+            await _db.TblOtpManagers.AddAsync(_opt);
+            await _db.SaveChangesAsync();
         }
 
         //private OtpManager SetOtpManager(string otpText, string optType)
