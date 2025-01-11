@@ -8,6 +8,6 @@ namespace Authentication.Models.Repositories.Abstract
 {
     public interface IRefreshHandler
     {
-        //Task<string> GenerateToken(int userId);
+        Task<string> GenerateToken(string userName);
     }
 }

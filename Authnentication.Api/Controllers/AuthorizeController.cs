@@ -43,7 +43,7 @@ namespace Authentication.Api.Controllers
                     Subject = new ClaimsIdentity(
                     [
                         new Claim(ClaimTypes.Name,userCredentials.UserName),
-                        //new Claim(ClaimTypes.Role,user.Role)
+                        new Claim(ClaimTypes.Role,user.Role)
                     ]),
 
                     Expires = DateTime.UtcNow.AddSeconds(3000),
@@ -58,7 +58,7 @@ namespace Authentication.Api.Controllers
                 {
                     Token = finaltoken,
 
-                  //  RefreshToken = await refreshHandler.GenerateToken(user.Id),
+                    RefreshToken = await refreshHandler.GenerateToken(userCredentials.UserName),
 
                     UserRole = user.Role
                 });
