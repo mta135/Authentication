@@ -27,46 +27,46 @@ namespace Authentication.Api.Controllers
             this.refreshHandler = refreshHandler;
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> GenerateToken(UserCredentialsModel userCredentials)
-        //{
-        //    RegisteredUser user = await userService.GetRegisteredUser(userCredentials);
+        [HttpPost]
+        public async Task<IActionResult> GenerateToken(UserCredentialsModel userCredentials)
+        {
+            TblUser user = await userService.GetRegisteredUser(userCredentials);
 
-        //    if (user != null)
-        //    {
-        //        //generate token
-        //        var tokenhandler = new JwtSecurityTokenHandler();
+            if (user != null)
+            {
+                //generate token
+                var tokenhandler = new JwtSecurityTokenHandler();
 
-        //        var tokenkey = Encoding.UTF8.GetBytes(JwtTokenSettings.JwtKey);
-        //        var tokendesc = new SecurityTokenDescriptor
-        //        {
-        //            Subject = new ClaimsIdentity(
-        //            [
-        //                new Claim(ClaimTypes.Name,userCredentials.UserName),
-        //                //new Claim(ClaimTypes.Role,user.Role)
-        //            ]),
+                var tokenkey = Encoding.UTF8.GetBytes(JwtTokenSettings.JwtKey);
+                var tokendesc = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(
+                    [
+                        new Claim(ClaimTypes.Name,userCredentials.UserName),
+                        //new Claim(ClaimTypes.Role,user.Role)
+                    ]),
 
-        //            Expires = DateTime.UtcNow.AddSeconds(3000),
-        //            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenkey), SecurityAlgorithms.HmacSha256)
-        //        };
+                    Expires = DateTime.UtcNow.AddSeconds(3000),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenkey), SecurityAlgorithms.HmacSha256)
+                };
 
-        //        var token = tokenhandler.CreateToken(tokendesc);
+                var token = tokenhandler.CreateToken(tokendesc);
 
-        //        var finaltoken = tokenhandler.WriteToken(token);
+                var finaltoken = tokenhandler.WriteToken(token);
 
-        //        return Ok(new TokenResponse()
-        //        {
-        //            Token = finaltoken, 
+                return Ok(new TokenResponse()
+                {
+                    Token = finaltoken,
 
-        //            RefreshToken = await refreshHandler.GenerateToken(user.Id),
-                    
-        //            UserRole = user.Role 
-        //        });
-        //    }
-        //    else
-        //    {
-        //        return Unauthorized();
-        //    }
-        //}
+                  //  RefreshToken = await refreshHandler.GenerateToken(user.Id),
+
+                    UserRole = user.Role
+                });
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
     }
 }

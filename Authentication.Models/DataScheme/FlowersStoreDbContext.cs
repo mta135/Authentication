@@ -17,6 +17,10 @@ public partial class FlowersStoreDbContext : DbContext
 
     public virtual DbSet<TblOtpManager> TblOtpManagers { get; set; }
 
+    public virtual DbSet<TblPwdManger> TblPwdMangers { get; set; }
+
+    public virtual DbSet<TblRefreshtoken> TblRefreshtokens { get; set; }
+
     public virtual DbSet<TblTempuser> TblTempusers { get; set; }
 
     public virtual DbSet<TblUser> TblUsers { get; set; }
@@ -53,6 +57,41 @@ public partial class FlowersStoreDbContext : DbContext
                 .HasColumnName("username");
         });
 
+        modelBuilder.Entity<TblPwdManger>(entity =>
+        {
+            entity.ToTable("tbl_pwdManger");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ModifyDate).HasColumnType("datetime");
+            entity.Property(e => e.Password)
+                .IsRequired()
+                .HasMaxLength(200)
+                .HasColumnName("password");
+            entity.Property(e => e.Username)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("username");
+        });
+
+        modelBuilder.Entity<TblRefreshtoken>(entity =>
+        {
+            entity.HasKey(e => e.Userid);
+
+            entity.ToTable("tbl_refreshtoken");
+
+            entity.Property(e => e.Userid)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("userid");
+            entity.Property(e => e.Refreshtoken)
+                .IsUnicode(false)
+                .HasColumnName("refreshtoken");
+            entity.Property(e => e.Tokenid)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("tokenid");
+        });
+
         modelBuilder.Entity<TblTempuser>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("tbl_tempuser1");
@@ -86,23 +125,38 @@ public partial class FlowersStoreDbContext : DbContext
 
         modelBuilder.Entity<TblUser>(entity =>
         {
-            entity.HasKey(e => e.Userid);
+            entity.HasKey(e => e.Username);
 
             entity.ToTable("tbl_user");
 
+            entity.Property(e => e.Username)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("username");
             entity.Property(e => e.Email)
-                .HasMaxLength(50)
-                .IsUnicode(false);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("email");
+            entity.Property(e => e.Failattempt).HasColumnName("failattempt");
+            entity.Property(e => e.Isactive).HasColumnName("isactive");
+            entity.Property(e => e.Islocked).HasColumnName("islocked");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsRequired()
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("name");
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnName("password");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("phone");
             entity.Property(e => e.Role)
                 .HasMaxLength(50)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasColumnName("role");
         });
 
         OnModelCreatingPartial(modelBuilder);

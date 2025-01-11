@@ -34,9 +34,9 @@ namespace Authentication.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(APIResponse))]
         public async Task<IActionResult> ConfirmRegisteration(RegisterConfirmModel confirmPassword)
         {
-            //APIResponse data = await userService.ConfirmRegister(confirmPassword.UserId, confirmPassword.UserName, confirmPassword.OptText);
+            APIResponse data = await userService.ConfirmRegister(confirmPassword.UserId, confirmPassword.UserName, confirmPassword.OptText);
 
-            return Ok(null);
+            return Ok(data);
         }
     }
 }

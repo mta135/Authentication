@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Authentication.Migrations\Authentication.Migrations.csproj" />
     <ProjectReference Include="..\Authentication.Models\Authentication.Models.csproj" />
   </ItemGroup>
 
